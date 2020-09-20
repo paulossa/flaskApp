@@ -15,7 +15,6 @@ def set_session(sqlalchemy_url, engine=None):
     _dbsession = scoped_session(sessionmaker(bind=_engine))
 
     Base.query = _dbsession.query_property()
-    import sw_api.models
     Base.metadata.create_all(bind=_engine)
     return _dbsession
 
