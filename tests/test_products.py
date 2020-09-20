@@ -24,4 +24,3 @@ def test_get_products(tst, fixture):
     assert response.status_code == 200
     assert len(response.json) == fixture.total_products
     assert set(response.json[0].keys()) == {'id', 'name', 'value'}
-g

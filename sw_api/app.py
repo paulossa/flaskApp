@@ -1,15 +1,12 @@
 # Ajuste para erro de import como descrito em: https://github.com/jarus/flask-testing/issues/143#issuecomment-687167825
+from flask import Flask
+from flask_cors import CORS
 import werkzeug
 
 from sw_api.database import set_session, commit_session
-
 werkzeug.cached_property = werkzeug.utils.cached_property
-
-
-from flask import Flask
-
 from sw_api.api.public.api import public_bp
-from flask_cors import CORS
+
 
 
 def make_app(engine=None):
@@ -34,5 +31,4 @@ def database(application, engine=None):
 
 
 if __name__ == '__main__':
-    print('made app')
     app = make_app()
