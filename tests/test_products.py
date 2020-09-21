@@ -110,6 +110,12 @@ def test_update_products_success(tst, fixture):
     }
 
 
+    product = session().query(Product).get(target_id)
+    assert product.name == payload['name']
+    assert product.value == payload['value']
+
+
+
 
 
 
