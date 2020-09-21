@@ -102,13 +102,12 @@ def test_update_products_success(tst, fixture):
     assert product.name == "prod 6"
     assert product.value == 0.0
 
-    response = tst.client.put(f'/products/{target_id}', headers=HEADERS, data=payload)
+    response = tst.client.put(f'/products/{target_id}', headers=HEADERS, data=json.dumps(payload))
     assert response.status_code == HTTPStatus.OK, response.json
     assert response.json == {
         "id": target_id,
         **payload
     }
-
 
     product = session().query(Product).get(target_id)
     assert product.name == payload['name']
