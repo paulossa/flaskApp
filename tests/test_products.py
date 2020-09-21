@@ -6,6 +6,8 @@ import pytest
 from sw_api.database import session
 from sw_api.models import Product
 
+HEADERS = {'Content-Type': 'application/json'}
+
 
 @pytest.fixture
 def fixture():
@@ -38,7 +40,7 @@ def test_post_product_success(tst):
         'name': 'Novo Produto',
         'value': 340.5
     }
-    response = tst.client.post('/products', headers={'Content-Type': 'application/json'}, data=json.dumps(payload))
+    response = tst.client.post('/products', headers=HEADERS, data=json.dumps(payload))
 
     assert response.status_code == HTTPStatus.CREATED
     assert response.json == {
@@ -54,7 +56,7 @@ def test_post_product_badrequest(tst):
         'name': 'Novo Produto Inválido',
         'value': -10.50
     }
-    response = tst.client.post('/products', headers={'Content-Type': 'application/json'}, data=json.dumps(payload))
+    response = tst.client.post('/products', headers=HEADERS, data=json.dumps(payload))
 
     assert response.status_code == HTTPStatus.BAD_REQUEST
     assert response.json == {
@@ -64,7 +66,7 @@ def test_post_product_badrequest(tst):
     # Ajusta payload mas não envia nome
     payload["value"] = 100
     del payload["name"]
-    response = tst.client.post('/products', headers={'Content-Type': 'application/json'}, data=json.dumps(payload))
+    response = tst.client.post('/products', headers=HEADERS, data=json.dumps(payload))
     assert response.status_code == HTTPStatus.BAD_REQUEST
     assert response.json == {
         "message": {"name": ["Campo obrigatório"]}
@@ -72,13 +74,14 @@ def test_post_product_badrequest(tst):
 
 
 def test_delete_products_success(tst, fixture):
-    assert session().query(Product).count() == 10
+    assert session().query(Product).count() == fixture.total_products
 
     target_id = 6
     response = tst.client.delete(f'/products/{target_id}')
 
     assert response.status_code == HTTPStatus.NO_CONTENT
-    assert session().query(Product).count() == 9
+    assert session().query(Product).count() == fixture.total_products - 1
+    assert session().query(Product).get(target_id) is None
 
     target_id = 6
     response = tst.client.delete(f'/products/{target_id}')
@@ -86,5 +89,27 @@ def test_delete_products_success(tst, fixture):
     assert response.json == {
         "message": "Produto não encontrado"
     }
+
+
+def test_update_products_success(tst, fixture):
+    target_id = 7
+    payload = {
+        "name": "prod 6 - edited",
+        "value": 99.99
+    }
+
+    product = session().query(Product).get(target_id)
+    assert product.name == "prod 6"
+    assert product.value == 0.0
+
+    response = tst.client.put(f'/products/{target_id}', headers=HEADERS, data=payload)
+    assert response.status_code == HTTPStatus.OK, response.json
+    assert response.json == {
+        "id": target_id,
+        **payload
+    }
+
+
+
 
 
