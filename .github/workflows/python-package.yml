@@ -31,4 +31,4 @@ jobs:
         echo '( ͡° ͜ʖ ͡°)'
     - name: Test with pytest
       run: |
-        coverage run -m pytest
+        coverage run -m pytest -svv
