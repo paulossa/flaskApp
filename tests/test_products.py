@@ -1,5 +1,5 @@
-from http import HTTPStatus
 import json
+from http import HTTPStatus
 
 import pytest
 
@@ -18,7 +18,8 @@ def fixture():
     session().flush()
 
     return type("", (), {
-        "total_products": len(products)
+        "total_products": len(products),
+        "products_ids": [str(p.id) for p in products],
     })
 
 
@@ -68,4 +69,19 @@ def test_post_product_badrequest(tst):
     assert response.json == {
         "message": {"name": ["Campo obrigatório"]}
     }
+
+
+def test_delete_products_success(tst, fixture):
+    assert session().query(Product).count() == 10
+
+    target_id = 6
+    response = tst.client.delete(f'/products/{target_id}')
+
+    assert response.status_code == HTTPStatus.NO_CONTENT
+    assert session().query(Product).count() == 9
+
+    target_id = 6
+    response = tst.client.delete(f'/products/{target_id}')
+    assert response.status_code == HTTPStatus.NOT_FOUND
+
 
