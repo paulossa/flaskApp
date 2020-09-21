@@ -83,5 +83,8 @@ def test_delete_products_success(tst, fixture):
     target_id = 6
     response = tst.client.delete(f'/products/{target_id}')
     assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json == {
+        "message": "Produto não encontrado"
+    }
 
 
