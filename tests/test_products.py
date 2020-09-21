@@ -1,4 +1,5 @@
 from http import HTTPStatus
+import json
 
 import pytest
 
@@ -30,17 +31,41 @@ def test_get_products(tst, fixture):
 
 def test_post_product_success(tst):
     assert session().query(Product).count() == 0
+
     # Em uma aplicação com autenticação seria necessário envio de token
     payload = {
         'name': 'Novo Produto',
         'value': 340.5
     }
-    response = tst.client.post('/products', headers={'Content-Type': 'application/json'}, data=payload)
+    response = tst.client.post('/products', headers={'Content-Type': 'application/json'}, data=json.dumps(payload))
 
     assert response.status_code == HTTPStatus.CREATED
     assert response.json == {
         'id': 1,
         'name': 'Novo Produto',
         'value': 340.5
+    }
+    assert session().query(Product).count() == 1
+
+
+def test_post_product_badrequest(tst):
+    payload = {
+        'name': 'Novo Produto Inválido',
+        'value': -10.50
+    }
+    response = tst.client.post('/products', headers={'Content-Type': 'application/json'}, data=json.dumps(payload))
+
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    assert response.json == {
+        "message": {"value": ["Não pode ser negativo"]}
+    }
+
+    # Ajusta payload mas não envia nome
+    payload["value"] = 100
+    del payload["name"]
+    response = tst.client.post('/products', headers={'Content-Type': 'application/json'}, data=json.dumps(payload))
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    assert response.json == {
+        "message": {"name": ["Campo obrigatório"]}
     }
 
