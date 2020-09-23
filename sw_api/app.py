@@ -3,10 +3,12 @@ from flask import Flask
 from flask_cors import CORS
 import werkzeug
 
-from sw_api.database import set_session, commit_session
+from sw_api.database import set_session, commit_session, session
+from sw_api.models import Product
+from sw_api.utils.bootstrap import bootstrap_data
+
 werkzeug.cached_property = werkzeug.utils.cached_property
 from sw_api.api.public.api import public_bp
-
 
 
 def make_app(engine=None):
@@ -23,7 +25,13 @@ def make_app(engine=None):
 
 
 def database(application, engine=None):
-    set_session("sqlite://db.sqlite", engine=engine)
+    set_session("sqlite://", engine=engine)
+
+    product_count = session().query(Product).count()
+    if product_count == 0:
+        bootstrap_data()
+
+
 
     @application.teardown_appcontext
     def finish_session(exception=None):

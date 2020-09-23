@@ -7,7 +7,7 @@ from sw_api.database import session
 from sw_api.models import Product
 
 HEADERS = {'Content-Type': 'application/json'}
-
+INITIAL_PRODUCT_COUNT = 3
 
 @pytest.fixture
 def fixture():
@@ -20,7 +20,7 @@ def fixture():
     session().flush()
 
     return type("", (), {
-        "total_products": len(products),
+        "total_products": len(products) + INITIAL_PRODUCT_COUNT,
         "products_ids": [str(p.id) for p in products],
     })
 
@@ -33,7 +33,7 @@ def test_get_products(tst, fixture):
 
 
 def test_post_product_success(tst):
-    assert session().query(Product).count() == 0
+    assert session().query(Product).count() == 0 + INITIAL_PRODUCT_COUNT
 
     # Em uma aplicação com autenticação seria necessário envio de token
     payload = {
@@ -44,11 +44,11 @@ def test_post_product_success(tst):
 
     assert response.status_code == HTTPStatus.CREATED
     assert response.json == {
-        'id': 1,
+        'id': INITIAL_PRODUCT_COUNT + 1,
         'name': 'Novo Produto',
         'value': 340.5
     }
-    assert session().query(Product).count() == 1
+    assert session().query(Product).count() == 1 + INITIAL_PRODUCT_COUNT
 
 
 def test_post_product_badrequest(tst):
@@ -92,7 +92,7 @@ def test_delete_products_success(tst, fixture):
 
 
 def test_update_products_success(tst, fixture):
-    target_id = 7
+    target_id = fixture.products_ids[6]
     payload = {
         "name": "prod 6 - edited",
         "value": 99.99
@@ -105,7 +105,7 @@ def test_update_products_success(tst, fixture):
     response = tst.client.put(f'/products/{target_id}', headers=HEADERS, data=json.dumps(payload))
     assert response.status_code == HTTPStatus.OK, response.json
     assert response.json == {
-        "id": target_id,
+        "id": int(target_id),
         **payload
     }
 
