@@ -2,6 +2,7 @@ aniso8601==8.0.0
 attrs==20.2.0
 click==7.1.2
 coverage==5.3
+dill==0.3.2
 Flask==1.1.2
 Flask-Cors==3.0.9
 flask-restplus==0.13.0
@@ -13,10 +14,13 @@ Jinja2==2.11.2
 jsonschema==3.2.0
 MarkupSafe==1.1.1
 marshmallow==2.15.0
+mccabe==0.6.1
 more-itertools==8.5.0
 packaging==20.4
 pluggy==0.13.1
 py==1.9.0
+pycodestyle==2.6.0
+pyflakes==2.2.0
 pyparsing==2.4.7
 pyrsistent==0.17.3
 pytest==6.0.2
