@@ -3,7 +3,6 @@ import pytest
 from sw_api.database import session
 from sw_api.models import Sale, Product
 
-HEADERS = {'Content-Type': 'application/json'}
 INITIAL_PRODUCT_COUNT = 3
 
 
