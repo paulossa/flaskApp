@@ -5,7 +5,7 @@ Objetivos do back:
 - [x] Promoções Iniciais: 
   - [x] 3 por 10 
   - [x] Pague 1 Leve 2
-- [ ] Checkout 
+- [x] Checkout 
 
 
 #####  Comandos úteis: 
@@ -32,3 +32,5 @@ Objetivos do back:
 - Quarto ciclo: 
     - Adição de testes de promoções
     - Aumentando cobertura de testes
+    - Adição de endpoint de checkout + serviço de checkout
+    - Adição de testes de checkout 
