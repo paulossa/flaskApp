@@ -112,6 +112,14 @@ def test_update_products_success(tst, fixture):
     product = session().query(Product).get(target_id)
     assert product.name == payload['name']
     assert product.value == payload['value']
+    assert product.get_calculated_values(quantity=10) == [
+        {
+            "product": "prod 6 - edited",
+            "value": 999.90,
+            "sale": None,
+            "quantity": 10,
+        }
+    ]
 
 
 def test_update_product_not_found(tst, fixture):
