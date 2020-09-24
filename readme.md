@@ -1,17 +1,22 @@
 ### MVP feat promoções e-commerce 
 
 Objetivos do back: 
-- [x] CRUD produtos {id, nome, preco}
-- [ ] Promoções. Initial: 3por1, 3por10
+- [x] CRUD produtos
+- [x] Promoções Iniciais: 
+  - [x] 3 por 10 
+  - [x] Pague 1 Leve 2
 - [ ] Checkout 
 
 
 #####  Comandos úteis: 
 
-- Rodar aplicação: ```FLASK_APP=sw_api/app.py python -m flask run```
-- Rodar testes gerando cobertura: ```coverage run --source sw_api/ -m pytest```
-- Mostrar relatório de cobertura: ``````
-
+- Rodar aplicação:
+  - ```FLASK_APP=sw_api/app.py python -m flask run```
+- Rodar testes gerando cobertura: 
+  - ```coverage run --source sw_api/ -m pytest```
+- Mostrar relatório de cobertura: 
+  - ```coverage report```
+  - ```coverage html``` | gera htmlcov/ com relatório em html interativo e mais detalhado
 
 ##### Notas levantadas ao longo do desenvolvimento 
 
