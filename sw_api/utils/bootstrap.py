@@ -16,7 +16,7 @@ def bootstrap_data():
             str_func=pickle.dumps(trespor10_func)
         ),
         Sale(
-            description='Pague 1 leve 2',
+            description='Pague 1 Leve 2',
             str_func=pickle.dumps(pague1leve2_func)
         )
     ]

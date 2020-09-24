@@ -32,7 +32,6 @@ class ProductsIdEndpoint(Resource):
     @staticmethod
     @check_body(ProductSchema)
     def put(data, pid):
-        print(data)
         product = session().query(Product).get(pid)
         if not product:
             return notfound("Produto não encontrado")

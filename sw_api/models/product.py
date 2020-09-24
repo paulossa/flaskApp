@@ -1,8 +1,8 @@
+import dill as pickle
+from sqlalchemy import Column, Integer, Float, ForeignKey, String
 from sqlalchemy.orm import validates, relationship
 
 from sw_api.models.base import Base
-
-from sqlalchemy import Column, Integer, Float, ForeignKey, String
 
 
 class Product(Base):
@@ -19,3 +19,10 @@ class Product(Base):
     def value_validation(self, key, value):
         assert value >= 0, 'Valor não pode ser negativo'
         return value
+
+    def get_calculated_values(self, quantity: int) -> float:
+        out = self.value * quantity
+        if self.sale:
+            unpickled_func = pickle.loads(self.sale.str_func)
+            out = unpickled_func(self, quantity)
+        return out
