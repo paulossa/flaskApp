@@ -21,7 +21,13 @@ class Product(Base):
         return value
 
     def get_calculated_values(self, quantity: int) -> float:
-        out = self.value * quantity
+        out = [{
+            'product': self.name,
+            'value': self.value * quantity,
+            'sale': None,
+            'quantity': quantity,
+        }]
+        
         if self.sale:
             unpickled_func = pickle.loads(self.sale.str_func)
             out = unpickled_func(self, quantity)
