@@ -1,9 +1,17 @@
 from flask_restplus import Resource, Namespace
 
+from sw_api.schemas.cart import CartLoadSchema, CartItemDumpSchema
+from sw_api.services.checkout_service import calculate_checkout
+from sw_api.utils.check_body import check_body
+
 cart_ns = Namespace("cart")
 
 
-@cart_ns.route('checkout')
+@cart_ns.route('/checkout')
 class CartCheckoutEndpoint(Resource):
-    def get(self):
-        return 'hello miserave'
+    @staticmethod
+    @check_body(CartLoadSchema)
+    def post(data):
+        cart_items = calculate_checkout(data['products'])
+
+        return CartItemDumpSchema().dump(cart_items, many=True).data

@@ -10,8 +10,8 @@ def calculate_checkout(cart):
     """
     out = []
     for item in cart:
-        product = session().query(Product).get(item.id_product)
+        product = session().query(Product).get(item.get('id_product'))
         if product:
-            out += product.get_calculated_values(item.quantity)
+            out += product.get_calculated_values(item.get('quantity'))
 
     return out
