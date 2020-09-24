@@ -1,4 +1,5 @@
 import pytest
+import dill as pickle
 
 from sw_api.database import session
 from sw_api.models import Sale, Product
@@ -86,6 +87,7 @@ def test_pague1_leve2(tst, fixture):
         'quantity': 1
     }]
 
+
 def test_tres_por_10(tst, fixture):
     product = session().query(Product).filter_by(id_sale=fixture.tpd_id)
     product = product.order_by(Product.created_at.asc()).first()
@@ -136,10 +138,33 @@ def test_tres_por_10(tst, fixture):
     }]
 
 
+def test_new_sale_25_percent_off(tst):
+    # Criar uma nova promoção consiste apenas em:
+    # - Criar função que obedeça contrato
+    # - Criar promoção serializando função de calculo de preço de produtos
+    # - Associar promoção aos produtos desejados
 
+    def sale_25_percent_off(product, quantity):
+        return [{
+            "product": product.name,
+            "value": product.value * quantity * (1 - 0.25),
+            "quantity": quantity,
+            "sale": "Desconto de 25%",
+        }]
 
+    sale = Sale(description="Desconto de 25%", str_func=pickle.dumps(sale_25_percent_off))
+    session().add(sale)
+    session().flush()
 
+    p = Product(name="Smartphone TchauMe", value=1000, id_sale=sale.id)
+    session().add(p)
+    session().flush()
 
-
-
-
+    assert p.get_calculated_values(1) == [
+        {
+            "product": 'Smartphone TchauMe',
+            "value": 750.0,
+            "quantity": 1,
+            "sale": "Desconto de 25%",
+        }
+    ]
