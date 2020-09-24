@@ -16,8 +16,6 @@ def error_handler(error):
 
 def custom_output_json(data, code, headers=None):
     settings = current_app.config.get("RESTPLUS_JSON", {})
-    if current_app.debug:
-        settings.setdefault("indent", 4)
     dumped = simplejson.dumps(data, **settings) + "\n"
     resp = make_response(dumped, code)
     resp.headers.extend(headers or {})
