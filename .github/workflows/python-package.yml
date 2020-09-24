@@ -29,4 +29,6 @@ jobs:
         echo '( ͡° ͜ʖ ͡°)'
     - name: Test with pytest
       run: |
-        coverage run -m pytest -svv
+        coverage run --source sw_api/ -m pytest -svv
+        coverage report
+

@@ -23,4 +23,7 @@ Objetivos do back:
     - Adição de promoções
     - Relacionamento de [Promoções] para [Produtos] de 1-N, ou seja,
     uma promoção poderá estar relacionada a 0 ou mais produtos.
-    - Adição de bootstrap ao iniciar a aplicação. 
+    - Adição de bootstrap ao iniciar a aplicação.
+- Quarto ciclo: 
+    - Adição de testes de promoções
+    - Aumentando cobertura de testes

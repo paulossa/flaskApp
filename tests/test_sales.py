@@ -9,6 +9,7 @@ from sw_api.models import Product
 HEADERS = {'Content-Type': 'application/json'}
 INITIAL_PRODUCT_COUNT = 3
 
+
 @pytest.fixture
 def fixture():
     products = [
@@ -112,26 +113,3 @@ def test_update_products_success(tst, fixture):
     product = session().query(Product).get(target_id)
     assert product.name == payload['name']
     assert product.value == payload['value']
-
-
-def test_update_product_not_found(tst, fixture):
-    target_id = 777
-    payload = {
-        "name": "prod 6 - edited",
-        "value": 99.99
-    }
-
-    product = session().query(Product).get(target_id)
-    assert product is None
-
-    response = tst.client.put(f'/products/{target_id}', headers=HEADERS, data=json.dumps(payload))
-    assert response.status_code == HTTPStatus.NOT_FOUND, response.json
-    assert response.json == {
-        "message": "Produto não encontrado"
-    }
-
-
-
-
-
-
