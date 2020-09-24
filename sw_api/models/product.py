@@ -27,8 +27,9 @@ class Product(Base):
             'sale': None,
             'quantity': quantity,
         }]
-        
+
         if self.sale:
             unpickled_func = pickle.loads(self.sale.str_func)
             out = unpickled_func(self, quantity)
+
         return out
