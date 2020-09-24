@@ -8,4 +8,3 @@ public_bp = Blueprint("public_api", __name__)
 api = CustomApi(public_bp, doc="/doc/")
 
 api.add_namespace(products_ns)
-
