@@ -54,6 +54,7 @@ def test_post_product_success(tst):
     assert response.status_code == HTTPStatus.CREATED
     assert response.json == {
         'id': INITIAL_PRODUCT_COUNT + 1,
+        'id_sale': None,
         'name': 'Novo Produto',
         'value': 340.5,
         'identifier': 'np01',
@@ -121,6 +122,7 @@ def test_update_products_success(tst, fixture):
     assert response.status_code == HTTPStatus.OK, response.json
     assert response.json == {
         "id": int(target_id),
+        "id_sale": None,
         **payload
     }
 

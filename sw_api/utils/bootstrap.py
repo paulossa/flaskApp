@@ -45,4 +45,4 @@ def bootstrap_data():
     ]
 
     session().add_all(products)
-    session().flush()
+    session().commit()

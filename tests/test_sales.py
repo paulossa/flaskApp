@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 import pytest
 import dill as pickle
 
@@ -24,6 +26,22 @@ def fixture():
         "tpd_id": tpd.id,
         "p1l2_id": p1l2.id,
     })
+
+def test_get_sales(tst):
+    # Endpoint para listar promocoes
+    response = tst.client.get('/sales')
+    assert response.status_code == HTTPStatus.OK
+    assert response.json == [
+        {
+            'id': 1,
+            'description': '3 por 10 reais',
+        },
+        {
+            'id': 2,
+            'description': 'Pague 1 Leve 2',
+        }
+    ], response.json
+
 
 
 def test_pague1_leve2(tst, fixture):
