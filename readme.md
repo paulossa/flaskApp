@@ -28,7 +28,7 @@ Como o **produto** pode estar ligado a apenas uma promoção, conhece o seu valo
 ele encapsula a responsabilidade de calcular o seu preço para uma determinada quantidade de items.
 
 Ele faz isso verificando se está associado a uma **promoção**. 
-E caso sim, aplica o calculo que deveria ser feito pela função. 
+E caso esteja, aplica o calculo que deveria ser feito pela função. 
 
 Exemplificado abaixo. 
 
