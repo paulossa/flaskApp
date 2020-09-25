@@ -30,12 +30,13 @@ def test_get_products(tst, fixture):
     response = tst.client.get('/products')
     assert response.status_code == 200
     assert len(response.json) == fixture.total_products
-    assert set(response.json[0].keys()) == {'id', 'name', 'value', 'identifier'}
+    assert set(response.json[0].keys()) == {'id', 'name', 'value', 'identifier', 'id_sale'}
     assert response.json[0] == {
         'id': 1,
         'name': 'Coca Cola',
         'value': 4,
         'identifier': 'b001',
+        'id_sale': 1,
     }
 
 
@@ -93,7 +94,9 @@ def test_delete_products_success(tst, fixture):
     assert session().query(Product).count() == fixture.total_products - 1
     assert session().query(Product).get(target_id) is None
 
-    target_id = 6
+
+def test_delete_products_not_found(tst, fixture):
+    target_id = 321
     response = tst.client.delete(f'/products/{target_id}')
     assert response.status_code == HTTPStatus.NOT_FOUND
     assert response.json == {

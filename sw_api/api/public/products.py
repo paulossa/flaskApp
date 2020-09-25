@@ -4,7 +4,7 @@ from flask_restplus import Namespace, Resource
 
 from sw_api.database import session
 from sw_api.models import Product
-from sw_api.schemas.product import ProductSchema
+from sw_api.schemas.product import ProductSchema, ProductListSchema
 from sw_api.utils.check_body import check_body
 from sw_api.utils.responses import notfound, nocontent
 
@@ -16,7 +16,7 @@ class ProductsEndpoint(Resource):
     @staticmethod
     def get():
         products = session().query(Product).all()
-        return ProductSchema().dump(products, many=True)
+        return ProductListSchema().dump(products, many=True)
 
     @staticmethod
     @check_body(ProductSchema)

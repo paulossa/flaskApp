@@ -10,3 +10,7 @@ class ProductSchema(Schema):
     name = fields.String(required=True, error_messages=REQUIRED_ERROR_MESSAGE)
     value = fields.Decimal(required=True, error_messages=REQUIRED_ERROR_MESSAGE, places=2,
                            validate=Range(min=0, error="Não pode ser negativo"))
+
+
+class ProductListSchema(ProductSchema):
+    id_sale = fields.Integer()
