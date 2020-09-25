@@ -156,7 +156,7 @@ def test_new_sale_25_percent_off(tst):
     session().add(sale)
     session().flush()
 
-    p = Product(name="Smartphone TchauMe", value=1000, id_sale=sale.id)
+    p = Product(identifier='i321', name="Smartphone TchauMe", value=1000, id_sale=sale.id)
     session().add(p)
     session().flush()
 

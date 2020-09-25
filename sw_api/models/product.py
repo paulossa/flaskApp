@@ -7,7 +7,8 @@ from sw_api.models.base import Base
 
 class Product(Base):
     __tablename__ = "product"
-    name = Column(String)
+    identifier = Column(String, unique=True, nullable=False)
+    name = Column(String, nullable=False)
     value = Column(Float, nullable=False, default=0)
     id_sale = Column(Integer, ForeignKey("sale.id"), nullable=True)
 

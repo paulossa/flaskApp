@@ -37,6 +37,7 @@ class ProductsIdEndpoint(Resource):
             return notfound("Produto não encontrado")
         product.name = data['name']
         product.value = data['value']
+        product.identifier = data['identifier']
         return ProductSchema().dump(product).data
 
     @staticmethod
