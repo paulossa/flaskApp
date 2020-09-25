@@ -6,6 +6,8 @@ REQUIRED_ERROR_MESSAGE = {"required": "Campo obrigatório"}
 
 class ProductSchema(Schema):
     _id = fields.Integer(attribute="id", dump_to="id", dump_only=True)
+    identifier = fields.String()
     name = fields.String(required=True, error_messages=REQUIRED_ERROR_MESSAGE)
     value = fields.Decimal(required=True, error_messages=REQUIRED_ERROR_MESSAGE, places=2,
                            validate=Range(min=0, error="Não pode ser negativo"))
+    id_sale = fields.Integer(required=False, allow_none=True)

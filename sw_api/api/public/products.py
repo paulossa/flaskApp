@@ -30,13 +30,23 @@ class ProductsEndpoint(Resource):
 @products_ns.route('/<int:pid>')
 class ProductsIdEndpoint(Resource):
     @staticmethod
+    def get(pid):
+        product = session().query(Product).get(pid)
+        if not product:
+            return notfound("Produto não encontrado")
+        return ProductSchema().dump(product).data
+
+    @staticmethod
     @check_body(ProductSchema)
     def put(data, pid):
         product = session().query(Product).get(pid)
         if not product:
             return notfound("Produto não encontrado")
         product.name = data['name']
-        product.value = data['value']
+        product.identifier = data['identifier']
+        product.id_sale = data.get('id_sale')
+        product.value = data.get('value', 0)
+        session().flush()
         return ProductSchema().dump(product).data
 
     @staticmethod

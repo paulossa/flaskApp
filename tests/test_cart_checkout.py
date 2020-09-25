@@ -14,7 +14,9 @@ def test_successfull_checkout(tst):
 
     response = tst.client.post('/cart/checkout', headers=HEADERS, data=json.dumps(payload))
     assert response.status_code == 200, response.json
-    assert response.json == [
+    assert response.json == {
+        'bankslip_total': 10 + 8 + 31.8 + 15.9 + 250,
+        'bankslip': [
         {
             'product': 'Coca Cola',
             'quantity': 3,
@@ -43,4 +45,4 @@ def test_successfull_checkout(tst):
             'quantity': 5,
             'sale': None,
             'value': 5 * 50.0}
-    ]
+    ]}

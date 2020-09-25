@@ -26,20 +26,23 @@ def bootstrap_data():
 
     products = [
         Product(
+            identifier='b001',
             name='Coca Cola',
             value=4.0,
             id_sale=sales[0].id
         ),
         Product(
+            identifier='c001',
             name='Desodorante Rexona Aerosol',
             value=15.90,
             id_sale=sales[1].id,
         ),
         Product(
+            identifier='l001',
             name='Saco de lixo 24ltrs',
             value=50
         )
     ]
 
     session().add_all(products)
-    session().flush()
+    session().commit()

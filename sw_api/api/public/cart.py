@@ -13,5 +13,5 @@ class CartCheckoutEndpoint(Resource):
     @check_body(CartLoadSchema)
     def post(data):
         cart_items = calculate_checkout(data['products'])
-
-        return CartItemDumpSchema().dump(cart_items, many=True).data
+        bankslip = CartItemDumpSchema().dump(cart_items, many=True).data
+        return {'bankslip': bankslip, 'bankslip_total': sum([item['value'] for item in bankslip])}

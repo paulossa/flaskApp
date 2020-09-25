@@ -1,4 +1,6 @@
+# werkzeug.cached_property ==
 # Ajuste para erro de import como descrito em: https://github.com/jarus/flask-testing/issues/143#issuecomment-687167825
+import os
 from flask import Flask
 from flask_cors import CORS
 import werkzeug
@@ -25,11 +27,18 @@ def make_app(engine=None):
 
 
 def database(application, engine=None):
-    set_session("sqlite://", engine=engine)
+    env = os.environ.get('APPLICATION_ENV', 'development')
+    db_url = "sqlite:///database.db" if env == 'development' else "sqlite://"
+    set_session(db_url, engine=engine)
 
     product_count = session().query(Product).count()
+    print('Product count is ', product_count)
     if product_count == 0:
+        print('WILL INSERT DATA INTO DATABASE')
         bootstrap_data()
+        product_count = session().query(Product).count()
+        print('Product count now is ', product_count)
+
 
 
 
