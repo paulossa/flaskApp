@@ -28,7 +28,7 @@ def fixture():
 
 def test_get_products(tst, fixture):
     response = tst.client.get('/products')
-    assert response.status_code == 200
+    assert response.status_code == HTTPStatus.OK
     assert len(response.json) == fixture.total_products
     assert set(response.json[0].keys()) == {'id', 'name', 'value', 'identifier', 'id_sale'}
     assert response.json[0] == {
@@ -37,6 +37,26 @@ def test_get_products(tst, fixture):
         'value': 4,
         'identifier': 'b001',
         'id_sale': 1,
+    }
+
+
+def test_get_id_product(tst, fixture):
+    response = tst.client.get('/products/1')
+    assert response.status_code == HTTPStatus.OK
+    assert response.json == {
+        'id': 1,
+        'name': 'Coca Cola',
+        'value': 4,
+        'identifier': 'b001',
+        'id_sale': 1,
+    }
+
+
+def test_get_id_product_not_found(tst, fixture):
+    response = tst.client.get('/products/1111')
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json == {
+        "message": "Produto não encontrado"
     }
 
 
