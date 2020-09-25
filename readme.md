@@ -116,6 +116,10 @@ def test_new_sale_25_percent_off(tst):
 
 --- 
 #####  Comandos úteis: 
+- Instalar dependências (Requisitos: Python 3.6 e Pip 20.2.3): 
+  - ```virtualenv venv```
+  - ```source venv/bin/activate```
+  - ```pip install -r requirements```
 - Rodar aplicação:
   - ```FLASK_APP=sw_api/app.py python -m flask run```
 - Rodar testes gerando cobertura: 
